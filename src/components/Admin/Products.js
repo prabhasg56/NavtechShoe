@@ -18,7 +18,7 @@ const Products = ({ text, prodName }) => {
         </Text>
       )}
       {prodName?.map((item, index) => (
-        <Product item={item} key={index} />
+        <Product item={item.brandName} key={index} />
       ))}
       <StatusBar style="auto" />
     </View>

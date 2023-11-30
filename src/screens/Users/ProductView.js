@@ -1,8 +1,28 @@
 import React from 'react'
+import { View, Text, Image, ScrollView } from 'react-native';
 
-const ProductView = () => {
+import ProductCard from '../../components/Users/ProductCard';
+import { useSelector } from 'react-redux';
+
+const ProductView = ({ navigation }) => {
+  const { products } = useSelector((store, action) => store);
+
   return (
-    <div>ProductView</div>
+    <>
+
+      <ScrollView>
+        <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 20, marginTop: 15, justifyContent: "center" }}>
+          {
+            products.map((item) => {
+              return (
+                <ProductCard key={item.id} item={item} navigation={navigation} />
+              )
+            })
+          }
+        </View>
+      </ScrollView>
+
+    </>
   )
 }
 

@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
-import { useDispatch } from 'react-redux';
-import { baseUrl } from '../../redux/store';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
+import { TextInput, Button } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { baseUrl } from '../../redux/store';
+import { getProductsDataSuccess } from '../../redux/action';
+
 
 const AddProduct = ({ navigation }) => {
 
     const [productData, setProductData] = useState({
         brandName: '',
-        image: '',
         description: '',
-        price: '',
-        size: '',
+        stockShoes: null,
+        ordered: null,
+        price: null,
+        size: null,
     });
+
+    const dispatch = useDispatch();
 
     const handleChange = (field, newValue) => {
         if (newValue !== undefined) {
@@ -27,20 +32,30 @@ const AddProduct = ({ navigation }) => {
     }
 
     const handleSubmit = async () => {
-
         try {
-            const response = await axios.post(`${baseUrl}/products`, productData)
+            if (productData.brandName && productData.description && productData.price && productData.size) {
+                const response = await axios.post(`${baseUrl}/products`, productData);
 
-            setProductData({
-                brandName: '',
-                image: '',
-                description: '',
-                price: '',
-                size: '',
-            })
+                // dispatch(getProductsDataSuccess(response.data));
+                alert("Product added successfully");
+
+                navigation.navigate("All Products");
+
+                setProductData({
+                    brandName: '',
+                    description: '',
+                    stockShoes: null,
+                    ordered: null,
+                    price: null,
+                    size: null,
+                })
+            } else {
+                console.warn("Please provide a product details!")
+            }
         } catch (error) {
-            console.log(error)
+            console.warn(error);
         }
+
     }
 
     return (
@@ -54,9 +69,15 @@ const AddProduct = ({ navigation }) => {
                 />
                 <TextInput
                     mode="outlined"
-                    value={productData.image}
-                    label="Enter Image URL"
-                    onChangeText={(newValue) => handleChange("image", newValue)}
+                    value={productData.ordered}
+                    label="Enter No. Of Ordered Shoes "
+                    onChangeText={(newValue) => handleChange("ordered", newValue)}
+                />
+                <TextInput
+                    mode="outlined"
+                    value={productData.stockShoes}
+                    label="Enter No. Of Stock Shoes "
+                    onChangeText={(newValue) => handleChange("stockShoes", newValue)}
                 />
                 <TextInput
                     mode="outlined"

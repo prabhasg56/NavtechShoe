@@ -61,20 +61,20 @@ const GlobalStyles = StyleSheet.create({
     lineHeight: 19,
   },
   semiBoldHeadline: {
-    fontFamily: "OpenSans-SemiBold",
+    fontFamily: "OpenSans-Bold",
     fontSize: 15,
     lineHeight: 24,
     color: "black",
   },
   bigHeadline: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Sem",
     fontSize: 20,
     lineHeight: 32,
     color: "black",
   },
 
   normalHeadline: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-regular",
     fontSize: 15,
     lineHeight: 24,
     color: "black",

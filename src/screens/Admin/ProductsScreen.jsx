@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,25 +6,36 @@ import {
 } from "react-native";
 
 import Products from "../../components/Admin/Products";
+import { baseUrl } from '../../redux/store';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsData, getProductsDataFailure, getProductsDataSuccess } from "../../redux/action";
 
 
 const ProductsScreen = ({ navigation }) => {
 
-  const prodName = [
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-    "Nike Air Max Plus",
-  ];
+  const { products } = useSelector((store, action) => store)
+  const dispatch = useDispatch();
+
+  const fetchProducts = async () => {
+    dispatch(getProductsData());
+
+    try {
+      const response = await axios.get(`${baseUrl}/products`);
+      
+      dispatch(getProductsDataSuccess(response.data));
+    
+    } catch (err) {
+      console.warn(err);
+      
+      dispatch(getProductsDataFailure());
+    }
+
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -34,7 +45,7 @@ const ProductsScreen = ({ navigation }) => {
         }}
         keyboardShouldPersistTaps="handled"
       >
-        <Products text={false} prodName={prodName} />
+        <Products text={false} prodName={products} />
       </ScrollView>
     </View>
   );
