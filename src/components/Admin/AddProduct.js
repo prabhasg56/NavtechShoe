@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { baseUrl } from '../../redux/store';
 import axios from 'axios';
 
-const AddProducts = ({ navigation }) => {
+const AddProduct = ({ navigation }) => {
 
     const [productData, setProductData] = useState({
         brandName: '',
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default AddProducts
+export default AddProduct
