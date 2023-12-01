@@ -5,8 +5,7 @@ import axios from 'axios';
 
 import { Shoe2 } from '../../../assets/index';
 import { baseUrl } from '../../redux/store';
-import { addToCart } from '../../redux/action';qqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+import { addToCart } from '../../redux/action';
 const ProductDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
 
