@@ -5,6 +5,7 @@ import { TextInput, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { baseUrl } from '../../redux/store';
 import { editProductData } from '../../redux/action';
+import GlobalStyles from '../../styles/GlobalStyles';
 
 
 const UpdateProdDetails = ({ navigation, route }) => {
@@ -109,11 +110,11 @@ const UpdateProdDetails = ({ navigation, route }) => {
                     onChangeText={(newValue) => handleChange("size", newValue)}
                 />
 
-                <TouchableOpacity style={[styles.btn, { backgroundColor: "#044C04" }]} onPress={handleSubmit}>
-                    <Text style={styles.btnTxt}>Update</Text>
+                <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#044C04" }]} onPress={handleSubmit}>
+                    <Text style={GlobalStyles.btnTxt}>Update</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btn, { backgroundColor: "#8C0404" }]} onPress={() => handleCancel()}>
-                    <Text style={styles.btnTxt}>Cancel</Text>
+                <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#8C0404" }]} onPress={() => handleCancel()}>
+                    <Text style={GlobalStyles.btnTxt}>Cancel</Text>
                 </TouchableOpacity>
 
             </View>
@@ -126,20 +127,6 @@ const styles = StyleSheet.create({
         padding: "5%",
         gap: 10,
     },
-    btn: {
-        marginTop: 10,
-        marginBottom: 10,
-        alignItems: "center",
-        borderRadius: 18,
-        fontSize: "50px",
-        fontWeight: "bold",
-        padding: 12,
-    },
-    btnTxt: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 20,
-    }
 
 })
 

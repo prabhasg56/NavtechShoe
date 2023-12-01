@@ -32,7 +32,7 @@ const AllRoutes = () => {
       },
     },
     {
-      name: "CartScreen",
+      name: "Cart",
       component: CartScreen,
       options: {
         headerShown: true,

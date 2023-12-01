@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { heart, heartOutline, } from 'ionicons/icons';
 
 import { getCartData, getCartDataFailure, getCartDataSuccess } from '../../redux/action';
 import { baseUrl } from '../../redux/store';
-import { Shoe2, AddIcon, RemoveIcon, DeleteICon } from '../../../assets/index';
+import CartCard from '../../components/Users/CartCard';
+import GlobalStyles from '../../styles/GlobalStyles';
 
 
-const CartScreen = () => {
+const CartScreen = ({ navigation }) => {
+  const [subTotal, setSubtotal] = useState(0);
 
-    const { products } = useSelector((store, action) => store);
+  const { cart } = useSelector((store, action) => store);
 
   const dispatch = useDispatch();
+
+  const deliveryCharge = 40;
+
+  // Calculate subtotal price
+  useEffect(() => {
+    const subtotalPrice = cart.reduce((acc, curr) => acc + Number(curr.price)*curr.quantity, 0);
+    setSubtotal(subtotalPrice);
+  }, [])
+
+  const grandTotal = subTotal + deliveryCharge;
+
+  const handleSubmit = () => {
+    navigation.navigate("Navtech");
+  }
+
+  const handleCancel = () => {
+    navigation.navigate("Navtech");
+  }
 
   const fetchProducts = async () => {
     dispatch(getCartData());
@@ -35,106 +54,54 @@ const CartScreen = () => {
     fetchProducts();
   }, []);
 
-
-  let quantity = 1;
-  let amnt = {
-    subtotal: "3,499",
-    delivery: 40,
-    grandTotal: 3539
-  }
-
   return (
-    <View style={{ marginTop: 10 }}>
-      <View style={{ flexDirection: "row", gap: 10, padding: 3 }}>
+    <ScrollView style={styles.container}>
 
-        <View style={{ alignItems: "center", gap: 10 }}>
-          <Image source={Shoe2} alt='shoe' />
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Image source={RemoveIcon} alt='icon' style={styles.iconAdd} />
-            <Text style={{ fontSize: 15, fontWeight: "800" }}>{quantity}</Text>
-            <Image source={AddIcon} alt='icon' style={styles.iconAdd} />
-          </View>
-        </View>
-
-        <Card />
-
+      <View style={{ padding: 5 }}>
+        {
+          cart.map((item, ind) => {
+            return (
+              <CartCard key={ind} navigation={navigation} cartItem={item} />
+            )
+          })
+        }
       </View>
 
       <View style={{ padding: 12, marginBottom: '50px' }}>
         <View gap={0} >
-          <View style={{ ...styles.subTotal, paddingHorizontal: 5, paddingVertical: 10, borderColor: "#9E9898", borderTopWidth: 1 }}>
+          <View style={{ ...styles.subTotalTxt, paddingHorizontal: 5, paddingVertical: 10, borderColor: "#9E9898", borderTopWidth: 1 }}>
             <Text>Subtotal</Text>
-            <Text>₹ {amnt.subtotal}</Text>
+            <Text>₹ {subTotal}</Text>
           </View>
-          <View style={{ ...styles.subTotal, paddingHorizontal: 5, paddingVertical: 10, borderBottomWidth: 1 }}>
+          <View style={{ ...styles.subTotalTxt, paddingHorizontal: 5, paddingVertical: 10, borderBottomWidth: 1 }}>
             <Text>Delivery</Text>
-            <Text>₹ {amnt.delivery}</Text>
+            <Text>₹ {deliveryCharge}</Text>
           </View>
 
         </View>
-        <View style={styles.grandTotal} >
+        <View style={styles.grandTotalCon} >
           <Text style={styles.grandTotalTxt}>Grand Total</Text>
-          <Text style={styles.grandTotalTxt}>₹ {amnt.grandTotal}</Text>
+          <Text style={styles.grandTotalTxt}>₹ {grandTotal}</Text>
         </View>
       </View>
-    </View>
-  )
-}
 
-
-const Card = () => {
-  const [wish, setWish] = useState(false);
-
-  return (
-    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-
-      <View style={{ width: "55%" }}>
-        <Text style={styles.title} >Mercedes AMG Petronas </Text>
-        <Text style={styles.subTitle}>Men’s Shoes</Text>
-        <Text style={styles.subTitle}>Puma White-Silver</Text>
-        <Text style={styles.subTitle}>
-          SIze 11
-        </Text>
+      <View style={{ width: "80%", alignSelf: "center", flexDirection: "row", justifyContent: "space-evenly", marginVertical: 10 }}>
+        <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#044C04", width: "40%" }]} onPress={() => handleSubmit()}>
+          <Text style={GlobalStyles.btnTxt}>Checkout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#8C0404", width: "40%" }]} onPress={() => handleCancel()}>
+          <Text style={GlobalStyles.btnTxt}>Cancel</Text>
+        </TouchableOpacity>
       </View>
-      <View gap={20} style={{ marginRight: "auto", paddingHorizontal: 5 }}>
-        <View >
-          <Image source={DeleteICon} style={{ color: "red" }} />
-        </View>
-
-        <View >
-          <Text style={styles.totalPrice}> ₹3,499</Text>
-          <Text style={styles.subtxt}>Incl. of taxes</Text>
-        </View>
-      </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#191919"
+  container: {
+    marginTop: 10,
   },
-  subTitle: {
-    fontSize: 10,
-    fontWeight: "600",
-  },
-  subtxt: {
-    fontSize: 10,
-    fontWeight: "400",
-  },
-  totalPrice: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "black"
-  },
-  iconAdd: {
-    fontSize: 15,
-    width: 20,
-    height: 20
-  },
-  grandTotal: {
+  grandTotalCon: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 5,
@@ -145,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
 
   },
-  subTotal: {
+  subTotalTxt: {
     flexDirection: "row",
     justifyContent: "space-between",
     fontSize: 13,

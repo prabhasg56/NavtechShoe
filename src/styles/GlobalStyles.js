@@ -3,10 +3,19 @@ import { StyleSheet } from "react-native";
 export const placeholerColor = "#9E9898";
 
 const GlobalStyles = StyleSheet.create({
-
+  btn: {
+    marginTop: 10,
+    marginBottom: 10,
+    alignItems: "center",
+    borderRadius: 18,
+    fontSize: "50px",
+    fontWeight: "bold",
+    padding: 12,
+  },
   btnTxt: {
-    fontSize: 16,
-    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
   },
   background: {
     backgroundColor: "#0D1A26",
@@ -61,22 +70,22 @@ const GlobalStyles = StyleSheet.create({
       color: "#4BCBEB",
     },
     delivered: {
-      color:"#1BCFB4"
+      color: "#1BCFB4"
     },
-    
+
   },
   complaintStatus: {
     RESOLVED: {
       color: "#1BCFB4",
     },
     PENDING: {
-      color:"#F9D144"
+      color: "#F9D144"
     }
   },
 
   price: {
     fontSize: 13,
-    color:"#BA2B20",
+    color: "#BA2B20",
   }
 });
 
