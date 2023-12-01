@@ -12,7 +12,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 const CartScreen = ({ navigation }) => {
   const [subTotal, setSubtotal] = useState(0);
 
-  const { cart } = useSelector((store, action) => store);
+  const { cart } = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ const CartScreen = ({ navigation }) => {
 
   // Calculate subtotal price
   useEffect(() => {
-    const subtotalPrice = cart.reduce((acc, curr) => acc + Number(curr.price)*curr.quantity, 0);
+    const subtotalPrice = cart?.reduce((acc, curr) => acc + Number(curr?.price) * curr?.quantity, 0);
     setSubtotal(subtotalPrice);
   }, [])
 
@@ -34,7 +34,7 @@ const CartScreen = ({ navigation }) => {
     navigation.navigate("Navtech");
   }
 
-  const fetchProducts = async () => {
+  const fetchCartProducts = async () => {
     dispatch(getCartData());
 
     try {
@@ -51,7 +51,7 @@ const CartScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    fetchProducts();
+    fetchCartProducts();
   }, []);
 
   return (
@@ -75,17 +75,17 @@ const CartScreen = ({ navigation }) => {
           </View>
           <View style={{ ...styles.subTotalTxt, paddingHorizontal: 5, paddingVertical: 10, borderBottomWidth: 1 }}>
             <Text>Delivery</Text>
-            <Text>₹ {deliveryCharge}</Text>
+            <Text>₹ {subTotal && deliveryCharge}</Text>
           </View>
 
         </View>
         <View style={styles.grandTotalCon} >
           <Text style={styles.grandTotalTxt}>Grand Total</Text>
-          <Text style={styles.grandTotalTxt}>₹ {grandTotal}</Text>
+          <Text style={styles.grandTotalTxt}>₹ {subTotal && grandTotal}</Text>
         </View>
       </View>
 
-      <View style={{ width: "80%", alignSelf: "center", flexDirection: "row", justifyContent: "space-evenly", marginVertical: 10 }}>
+      <View style={styles.btnCon}>
         <TouchableOpacity style={[GlobalStyles.btn, { backgroundColor: "#044C04", width: "40%" }]} onPress={() => handleSubmit()}>
           <Text style={GlobalStyles.btnTxt}>Checkout</Text>
         </TouchableOpacity>
@@ -118,6 +118,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#9E9898",
     paddingY: 5,
+  },
+  btnCon: {
+    width: "80%",
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginVertical: 10
   }
 });
 

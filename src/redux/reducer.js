@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, ADD_TO_CART, EDIT_PRODUCT_DATA, GET_CART_DATA, GET_CART_DATA_FAILURE, GET_CART_DATA_SUCCESS, GET_PRODUCTS, GET_PRODUCTS_FAILURE, GET_PRODUCTS_SUCCESS } from "./actionType"
+import { ADD_PRODUCT, ADD_TO_CART, DELETE_CART_DATA, EDIT_PRODUCT_DATA, GET_CART_DATA, GET_CART_DATA_FAILURE, GET_CART_DATA_SUCCESS, GET_PRODUCTS, GET_PRODUCTS_FAILURE, GET_PRODUCTS_SUCCESS } from "./actionType"
 
 const initState = {
     isLoading: false,
@@ -69,8 +69,18 @@ export const reducer = (state = initState, { type, payload }) => {
             return {
                 isError: false,
                 isLoading: false,
-                products: updatedData
+                products: [...updatedData]
             }
+            case DELETE_CART_DATA:
+                let updatedCartData = state.cart.filter((ele) => {
+                    return ele.id != payload.id;
+                })
+    
+                return {
+                    isError: false,
+                    isLoading: false,
+                    cart: [...updatedCartData]
+                }
         default: return { ...state };
     }
 }

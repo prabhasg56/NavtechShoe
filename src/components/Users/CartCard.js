@@ -1,15 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import { Shoe2, AddIcon, RemoveIcon, DeleteICon } from '../../../assets/index';
+import { baseUrl } from '../../redux/store';
+import { deleteCartData } from '../../redux/action';
 
 const CartCard = ({ navigation, cartItem }) => {
-  const { brandName, description, price, size, quantity  } = cartItem;
-  const [cartQuantity, setCartQuantity] = useState(1)
+  const { brandName, description, price, size, quantity, id } = cartItem;
 
-  const handleDeleteItem = () => {
-    if (quantity > 1) {
-      setCartQuantity(cartQuantity - 1);
+  const dispatch = useDispatch();
+
+  const handleDeleteItem = async () => {
+    if (quantity > 0) {
+      try {
+        const respone = await axios.delete(`${baseUrl}/cart/${id}`);
+        console.log(respone)
+        dispatch(deleteCartData(respone.data));
+
+        alert("Deleted successfully");
+      } catch (error) {
+        alert(error.message);
+      }
     }
   }
 
@@ -37,7 +50,7 @@ const CartCard = ({ navigation, cartItem }) => {
         </View>
         <View gap={20} style={{ marginRight: "auto", paddingHorizontal: 5 }}>
           <TouchableOpacity onPress={() => handleDeleteItem()}>
-            <Image source={DeleteICon} style={{ color: "red", alignSelf: "center" }}/>
+            <Image source={DeleteICon} style={{ color: "red", alignSelf: "center" }} />
           </TouchableOpacity>
 
           <View >
@@ -57,9 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     padding: 10,
-    borderWidth:0.2,
+    borderWidth: 0.2,
     borderRadius: 5,
-    marginBottom:8
+    marginBottom: 8
   },
   title: {
     fontSize: 14,
