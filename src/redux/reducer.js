@@ -62,7 +62,7 @@ export const reducer = (state = initState, { type, payload }) => {
                 cart: [...payload]
             }
         case EDIT_PRODUCT_DATA:
-            let updatedData = state.products.map((ele) => {
+            let updatedData = state.products?.map((ele) => {
                 return ele.id == payload.id ? payload : ele;
             })
 
@@ -72,8 +72,8 @@ export const reducer = (state = initState, { type, payload }) => {
                 products: [...updatedData]
             }
             case DELETE_CART_DATA:
-                let updatedCartData = state.cart.filter((ele) => {
-                    return ele.id != payload.id;
+                let updatedCartData = state.cart?.filter((ele) => {
+                    return ele.id != payload;
                 })
     
                 return {

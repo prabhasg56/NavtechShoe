@@ -39,7 +39,7 @@ const AllRoutes = () => {
       },
     },
     {
-      name: "ProductDetails",
+      name: "Product Details",
       component: ProductDetails,
       options: {
         headerShown: true,

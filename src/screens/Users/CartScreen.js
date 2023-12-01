@@ -9,7 +9,7 @@ import CartCard from '../../components/Users/CartCard';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
-const CartScreen = ({ navigation }) => {
+const CartScreen = ({ navigation, route }) => {
   const [subTotal, setSubtotal] = useState(0);
 
   const { cart } = useSelector((store) => store);
@@ -22,7 +22,7 @@ const CartScreen = ({ navigation }) => {
   useEffect(() => {
     const subtotalPrice = cart?.reduce((acc, curr) => acc + Number(curr?.price) * curr?.quantity, 0);
     setSubtotal(subtotalPrice);
-  }, [])
+  }, [cart]);
 
   const grandTotal = subTotal + deliveryCharge;
 
@@ -59,7 +59,7 @@ const CartScreen = ({ navigation }) => {
 
       <View style={{ padding: 5 }}>
         {
-          cart.map((item, ind) => {
+          cart?.map((item, ind) => {
             return (
               <CartCard key={ind} navigation={navigation} cartItem={item} />
             )

@@ -8,7 +8,7 @@ const ProductCard = ({ navigation, item }) => {
 
     const { brandName, price, description, size } = item;
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetails", {...item, Shoe2})}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("Product Details", {...item, Shoe2})}>
             <View style={styles.contentContainer} >
 
                 <Image source={Shoe2} alt="shoe img" />

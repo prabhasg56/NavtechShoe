@@ -1,13 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Button, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Profile from '../../screens/Users/Profile';
 import ProductView from '../../screens/Users/ProductView';
+import { useSelector } from 'react-redux';
 
 const TabRoutes = ({navigation}) => {
   
   const Tab = createBottomTabNavigator();
+
+  const {cart} = useSelector((store) => store);
 
   const tabRoutes = [
     {
@@ -32,8 +35,16 @@ const TabRoutes = ({navigation}) => {
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#FFFFFF",
+        backgroundColor: "black",
         tabBarInactiveTintColor: "#9E9898",
-        headerRight: () => <Icon name={"cart"} size={25} style={{paddingRight:20}} onPress={() => navigation.navigate("Cart")}/>,
+        headerRight: () => {
+          return(
+            <View>
+              <Text style={{position:"absolute", top:-8, left:13, color:"#940C3C", fontWeight:"bold"}}>{cart.length}</Text>
+              <Icon name={"cart"} size={35} style={{paddingRight:20}} onPress={() => navigation.navigate("Cart")}/>
+            </View>
+          )
+        },
         tabBarStyle: {
           backgroundColor: "#0D1A26",
           height: 70,

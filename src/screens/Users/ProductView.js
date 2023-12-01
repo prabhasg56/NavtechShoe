@@ -39,7 +39,7 @@ const ProductView = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 20, marginTop: 15, justifyContent: "center" }}>
           {
-            products.map((item) => {
+            products?.map((item) => {
               return (
                 <ProductCard key={item.id} item={item} navigation={navigation} />
               )
