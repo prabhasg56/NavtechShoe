@@ -40,7 +40,7 @@ const TabRoutes = ({navigation}) => {
         headerRight: () => {
           return(
             <View>
-              <Text style={{position:"absolute", top:-8, left:13, color:"#940C3C", fontWeight:"bold"}}>{cart.length}</Text>
+              <Text style={{position:"absolute", top:-8, left:13, color:"#940C3C", fontWeight:"bold"}}>{cart?.length}</Text>
               <Icon name={"cart"} size={35} style={{paddingRight:20}} onPress={() => navigation.navigate("Cart")}/>
             </View>
           )
