@@ -2,8 +2,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import UserTabRoute from './Users/TabRoutes';
 import AdminTabRoute from './Admin/TabRoutes';
-import Cart from '../components/Users/Cart';
+import CartScreen from '../screens/Users/CartScreen';
 import ProductDetails from '../screens/Users/ProductDetails';
+import UpdateProdDetails from '../components/Admin/UpdateProdDetails';
 
 const Stack = createStackNavigator();
 
@@ -31,8 +32,8 @@ const AllRoutes = () => {
       },
     },
     {
-      name: "Cart",
-      component: Cart,
+      name: "CartScreen",
+      component: CartScreen,
       options: {
         headerShown: true,
       },
@@ -40,6 +41,13 @@ const AllRoutes = () => {
     {
       name: "ProductDetails",
       component: ProductDetails,
+      options: {
+        headerShown: true,
+      },
+    },
+    {
+      name: "Update Product Details",
+      component: UpdateProdDetails,
       options: {
         headerShown: true,
       },

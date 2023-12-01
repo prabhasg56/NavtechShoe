@@ -8,6 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const Product = ({ item }) => {
   const navigation = useNavigation();
+
+  const { brandName, price, description, ordered, stockShoes, size } = item;
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -15,7 +18,7 @@ const Product = ({ item }) => {
           <Text
             style={{ ...GlobalStyles.semiBoldHeadline, ...styles.textColor }}
           >
-            {item}
+            {brandName}
           </Text>
           <Text
             style={{
@@ -24,7 +27,7 @@ const Product = ({ item }) => {
               ...styles.smallText,
             }}
           >
-            Men’s Shoes
+            {description}
           </Text>
           <Text
             style={{
@@ -33,7 +36,25 @@ const Product = ({ item }) => {
               ...styles.smallText,
             }}
           >
-            Ordered{"   "}400
+            Ordered: {ordered}
+          </Text>
+          <Text
+            style={{
+              ...GlobalStyles.normalHeadline,
+              ...styles.textColor,
+              ...styles.smallText,
+            }}
+          >
+            Stock: {stockShoes}
+          </Text>
+          <Text
+            style={{
+              ...GlobalStyles.normalHeadline,
+              ...styles.textColor,
+              ...styles.smallText,
+            }}
+          >
+            S | {size}
           </Text>
           <Text
             style={{
@@ -41,7 +62,7 @@ const Product = ({ item }) => {
               ...styles.textColor,
             }}
           >
-            ₹3,499
+            ₹{price}
           </Text>
         </View>
         <View style={styles.rightView}>
@@ -50,7 +71,7 @@ const Product = ({ item }) => {
       </View>
       <View style={styles.editContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Add Product")}
+          onPress={() => navigation.navigate("Update Product Details", item)}
         >
           <Image source={EditImg} alt="edit icon"/>
         </TouchableOpacity>

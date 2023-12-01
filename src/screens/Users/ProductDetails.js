@@ -3,9 +3,9 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { getCartDataSuccess } from '../../redux/store';
 import { Shoe2 } from '../../../assets/index';
 import { baseUrl } from '../../redux/store';
+import { addToCart } from '../../redux/action';
 
 const ProductDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -14,9 +14,9 @@ const ProductDetails = ({ route, navigation }) => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(`${baseUrl}/cart`, route.params);
+            const response = await axios.post(`${baseUrl}/cart`, { brandName, description, price, size });
 
-            // dispatch(getCartDataSuccess(route.params));
+            dispatch(addToCart(response.data));
             alert("Product added successfully");
 
             navigation.navigate("Cart");

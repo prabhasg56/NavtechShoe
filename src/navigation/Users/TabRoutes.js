@@ -33,7 +33,7 @@ const TabRoutes = ({navigation}) => {
       screenOptions={{
         tabBarActiveTintColor: "#FFFFFF",
         tabBarInactiveTintColor: "#9E9898",
-        headerRight: () => <Icon name={"cart"} size={25} style={{paddingRight:20}} onPress={() => navigation.navigate("Cart")}/>,
+        headerRight: () => <Icon name={"cart"} size={25} style={{paddingRight:20}} onPress={() => navigation.navigate("CartScreen")}/>,
         tabBarStyle: {
           backgroundColor: "#0D1A26",
           height: 70,

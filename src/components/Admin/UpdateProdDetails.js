@@ -1,22 +1,15 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
-import { TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { TextInput, Button } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import { baseUrl } from '../../redux/store';
-import { addProduct } from '../../redux/action';
+import { editProductData } from '../../redux/action';
 
 
-const AddProduct = ({ navigation }) => {
+const UpdateProdDetails = ({ navigation, route }) => {
 
-    const [productData, setProductData] = useState({
-        brandName: '',
-        description: '',
-        stockShoes: null,
-        ordered: null,
-        price: null,
-        size: null,
-    });
+    const [productData, setProductData] = useState(route.params);
 
     const dispatch = useDispatch();
 
@@ -34,10 +27,10 @@ const AddProduct = ({ navigation }) => {
     const handleSubmit = async () => {
         try {
             if (productData.brandName && productData.description && productData.price && productData.size) {
-                const response = await axios.post(`${baseUrl}/products`, productData);
+                const response = await axios.patch(`${baseUrl}/products/${productData.id}`, productData);
 
-                dispatch(addProduct(response.data));
-                alert("Product added successfully");
+                dispatch(editProductData(response.data));
+                alert("Product Update successfully");
 
                 navigation.navigate("All Products");
 
@@ -117,7 +110,7 @@ const AddProduct = ({ navigation }) => {
                 />
 
                 <TouchableOpacity style={[styles.btn, { backgroundColor: "#044C04" }]} onPress={handleSubmit}>
-                    <Text style={styles.btnTxt}>Submit</Text>
+                    <Text style={styles.btnTxt}>Update</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btn, { backgroundColor: "#8C0404" }]} onPress={() => handleCancel()}>
                     <Text style={styles.btnTxt}>Cancel</Text>
@@ -150,4 +143,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default AddProduct
+export default UpdateProdDetails;

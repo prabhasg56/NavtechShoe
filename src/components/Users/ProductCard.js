@@ -6,7 +6,7 @@ import { Shoe2 } from "../../../assets/index";
 
 const ProductCard = ({ navigation, item }) => {
 
-    const { brandName, price, description } = item;
+    const { brandName, price, description, size } = item;
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetails", {...item, Shoe2})}>
             <View style={styles.contentContainer} >
@@ -27,6 +27,15 @@ const ProductCard = ({ navigation, item }) => {
                         }}
                     >
                         {description}
+                    </Text>
+                    <Text
+                        style={{
+                            ...GlobalStyles.normalHeadline,
+                            ...styles.textColor,
+                            ...styles.smallText,
+                        }}
+                    >
+                        S | {size}
                     </Text>
                     <Text
                         style={{
@@ -63,6 +72,7 @@ const styles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 7,
     },
+  
     textCon: {
         display: "flex",
         justifyContent: "space-between",
