@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 
-import { getCartData, getCartDataFailure, getCartDataSuccess } from '../../redux/action';
-import { baseUrl } from '../../redux/store';
 import CartCard from '../../components/Users/CartCard';
 import GlobalStyles from '../../styles/GlobalStyles';
+import { resetCart } from '../../redux/action';
 
 
 const CartScreen = ({ navigation, route }) => {
   const [subTotal, setSubtotal] = useState(0);
 
-  const { cart } = useSelector((store) => store);
+  const { cart, isLoading } = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
@@ -22,37 +20,23 @@ const CartScreen = ({ navigation, route }) => {
   useEffect(() => {
     const subtotalPrice = cart?.reduce((acc, curr) => acc + Number(curr?.price) * curr?.quantity, 0);
     setSubtotal(subtotalPrice);
-  }, [cart]);
+  }, [isLoading]);
 
   const grandTotal = subTotal + deliveryCharge;
 
   const handleSubmit = () => {
-    navigation.navigate("Navtech");
+    if (subTotal > 0) {
+      dispatch(resetCart());
+      alert("Your order has been placed successfully!");
+      navigation.navigate("Navtech");
+    }else{
+      alert("Your cart is empty!");
+    }
   }
 
   const handleCancel = () => {
     navigation.navigate("Navtech");
   }
-
-  const fetchCartProducts = async () => {
-    dispatch(getCartData());
-
-    try {
-      const response = await axios.get(`${baseUrl}/cart`);
-
-      dispatch(getCartDataSuccess(response.data));
-
-    } catch (err) {
-      console.warn(err);
-
-      dispatch(getCartDataFailure());
-    }
-
-  }
-
-  useEffect(() => {
-    fetchCartProducts();
-  }, []);
 
   return (
     <ScrollView style={styles.container}>

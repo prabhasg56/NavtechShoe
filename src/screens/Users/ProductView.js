@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -9,13 +9,12 @@ import { getCartData, getProductsData, getProductsDataFailure, getProductsDataSu
 
 
 const ProductView = ({ navigation }) => {
-  const { products } = useSelector((store) => store);
+  const { products, isLoading } = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
   const fetchProducts = async () => {
     dispatch(getProductsData());
-    dispatch(getCartData());
 
     try {
       const response = await axios.get(`${baseUrl}/products`);
@@ -32,13 +31,14 @@ const ProductView = ({ navigation }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [products]);
+  }, [isLoading]);
 
   return (
     <>
 
       <ScrollView>
         <View style={styles.container}>
+
           {
             products?.map((item) => {
               return (

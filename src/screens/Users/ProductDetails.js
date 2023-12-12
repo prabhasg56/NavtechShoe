@@ -1,10 +1,8 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 import { Shoe2 } from '../../../assets/index';
-import { baseUrl } from '../../redux/store';
 import { addToCart, stateUpdate } from '../../redux/action';
 const ProductDetails = ({ route, navigation }) => {
 
@@ -12,44 +10,13 @@ const ProductDetails = ({ route, navigation }) => {
 
     const { brandName, description, price, size } = route.params;
 
-    const {cart} = useSelector((store) => store);
+    const { cart } = useSelector((store) => store);
 
     const addToCartHandler = async () => {
-        const item = cart?.find((item, index) => item.brandName == brandName)
+        dispatch(addToCart({ ...route.params, quantity: 1 }));
 
-        const productId = item?.id;
-        const quantity = item?.quantity;
-
-        if (!productId) {
-            try {
-                const response = await axios.post(`${baseUrl}/cart`, { brandName, description, price, size, quantity: 1 });
-
-                dispatch(addToCart(response.data));
-
-                alert("Product added successfully");
-
-                navigation.navigate("Cart");
-
-            }
-            catch (error) {
-                console.warn(error);
-            }
-        } else {
-
-            try {
-                const response = await axios.patch(`${baseUrl}/cart/${productId}`, { quantity: quantity+1 });
-
-                dispatch(addToCart(response.data));
-
-                alert("Product already exists in your cart!");
-
-                navigation.navigate("Cart");
-
-            }
-            catch (error) {
-                console.warn(error);
-            }
-        }
+        alert("Item added to cart");
+        navigation.navigate("Cart");
 
     }
 

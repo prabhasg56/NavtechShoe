@@ -30,6 +30,7 @@ const TabRoutes = ({navigation}) => {
       height: 55,
     },
   ]
+  
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -56,12 +57,12 @@ const TabRoutes = ({navigation}) => {
       }}
     >
       {
-        tabRoutes.map((route, index) => {
+        tabRoutes?.map((route, index) => {
           return (
             <Tab.Screen
               key={index}
-              name={route.name}
-              component={route.component}
+              name={route?.name}
+              component={route?.component}
               options={({ }) => ({
                 tabBarLabel: ({ color, focused }) => (
                   <Text

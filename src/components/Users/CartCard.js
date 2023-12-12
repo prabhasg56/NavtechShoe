@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 import { Shoe2, AddIcon, RemoveIcon, DeleteICon } from '../../../assets/index';
-import { baseUrl } from '../../redux/store';
-import { deleteCartData, addToCart } from '../../redux/action';
+import { deleteCartData, addToCart, removeFromCart } from '../../redux/action';
 
 const CartCard = ({ navigation, cartItem }) => {
 
@@ -14,39 +12,23 @@ const CartCard = ({ navigation, cartItem }) => {
   const dispatch = useDispatch();
 
   const handleDeleteItem = async () => {
-    try {
-      await axios.delete(`${baseUrl}/cart/${id}`);
-      dispatch(deleteCartData(id));
+    dispatch(deleteCartData(id));
 
-      alert("Deleted successfully");
-    } catch (error) {
-      alert(error.message);
-    }
+    alert("Deleted successfully");
 
   }
 
-  const increaseProduct = async () => {
-    try {
-      const response = await axios.patch(`${baseUrl}/cart/${id}`, { quantity: quantity + 1 });
+  const addToCartHandle = () => {
+    dispatch(addToCart({ ...cartItem }));
 
-      dispatch(addToCart(response.data));
+    alert("Updated Your Cart")
 
-    }
-    catch (error) {
-      console.warn(error);
-    }
   }
 
-  const decreaseProduct = async () => {
-    try {
-      const response = await axios.patch(`${baseUrl}/cart/${id}`, { quantity: quantity - 1 });
+  const removeToCartHandle = () => {
+    dispatch(removeFromCart({ ...cartItem }));
 
-      dispatch(addToCart(response.data));
-
-    }
-    catch (error) {
-      console.warn(error);
-    }
+    alert("Updated Your Cart")
 
   }
 
@@ -57,11 +39,11 @@ const CartCard = ({ navigation, cartItem }) => {
       <View style={{ alignItems: "center", gap: 10 }}>
         <Image source={Shoe2} alt='shoe' />
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <TouchableOpacity onPress={() => decreaseProduct()}>
+          <TouchableOpacity onPress={() => removeToCartHandle()}>
             <Image source={RemoveIcon} alt='icon' style={styles.iconAdd} />
           </TouchableOpacity>
           <Text style={{ fontSize: 15, fontWeight: "800" }}>{quantity}</Text>
-          <TouchableOpacity onPress={() => increaseProduct()}>
+          <TouchableOpacity onPress={() => addToCartHandle()}>
             <Image source={AddIcon} alt='icon' style={styles.iconAdd} />
           </TouchableOpacity>
         </View>

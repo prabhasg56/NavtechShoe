@@ -12,3 +12,7 @@ export const EDIT_PRODUCT_DATA = "EDIT_PRODUCT_DATA";
 
 export const DELETE_CART_DATA = "DELETE_CART_DATA";
 
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+
+export const RESET_CART = "RESET_CART";
+

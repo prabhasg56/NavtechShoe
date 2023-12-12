@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Text
 } from "react-native";
 
 import Products from "../../components/Admin/Products";
@@ -14,7 +15,7 @@ import { getProductsData, getProductsDataFailure, getProductsDataSuccess } from 
 
 const ProductsScreen = ({ navigation }) => {
 
-  const { products } = useSelector((store, action) => store)
+  const { products, isLoading } = useSelector((store, action) => store)
   const dispatch = useDispatch();
 
   const fetchProducts = async () => {
@@ -36,6 +37,12 @@ const ProductsScreen = ({ navigation }) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  if(isLoading) {
+    return <View>
+      <Text style={{fontSize:20, alignSelf:"center", marginTop:10}}>Loading...</Text>
+    </View>
+  }
 
   return (
     <View style={styles.container}>
